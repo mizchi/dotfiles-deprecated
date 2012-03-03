@@ -1,0 +1,463 @@
+#!zsh
+# NOTE: Generated from auto-fu.zsh (auto-fu-zcompile). Please DO NOT EDIT.
+
+backward-delete-char-by-keymap () {
+	if (( $+widgets[$KEYMAP+$WIDGET] == 1 ))
+	then
+		zle $KEYMAP+$WIDGET "$@"
+	else
+		zle .$WIDGET "$@"
+	fi
+}
+afu+accept-and-hold () {
+	__accepted=($WIDGET ${=NUMERIC:+-n $NUMERIC} "$@") 
+	zle .accept-and-hold && {
+		local hi
+		zstyle -s ':auto-fu:highlight' input hi
+		[[ -z ${hi} ]] || region_highlight=("0 ${#BUFFER} ${hi}") 
+	}
+	zstyle -T ':auto-fu:var' postdisplay/clearp && POSTDISPLAY='' 
+	return 0
+}
+afu+accept-line () {
+	__accepted=($WIDGET ${=NUMERIC:+-n $NUMERIC} "$@") 
+	zle .accept-line && {
+		local hi
+		zstyle -s ':auto-fu:highlight' input hi
+		[[ -z ${hi} ]] || region_highlight=("0 ${#BUFFER} ${hi}") 
+	}
+	zstyle -T ':auto-fu:var' postdisplay/clearp && POSTDISPLAY='' 
+	return 0
+}
+afu-comppost () {
+	((compstate[list_lines] + BUFFERLINES + 2 > LINES)) && {
+		compstate[list]='' 
+		zle -M "$compstate[list_lines]($compstate[nmatches]) too many matches..."
+	}
+	typeset -g afu_one_match_p=
+	(( $compstate[nmatches] == 1 )) && afu_one_match_p=t 
+}
+afu+vi-ins-mode () {
+	zle -K afu
+}
+auto-fu () {
+	emulate -L zsh
+	unsetopt rec_exact
+	local LISTMAX=999999
+	cursor_cur="$CURSOR" 
+	buffer_cur="$BUFFER" 
+	with-afu-compfuncs zle complete-word
+	cursor_new="$CURSOR" 
+	buffer_new="$BUFFER" 
+	if [[ "$buffer_cur[1,cursor_cur]" = "$buffer_new[1,cursor_cur]" ]]
+	then
+		CURSOR="$cursor_cur" 
+		{
+			local hi hiv
+			[[ $afu_one_match_p = t ]] && hi=completion/one  || hi=completion 
+			zstyle -s ':auto-fu:highlight' "$hi" hiv
+			[[ -z ${hiv} ]] || {
+				local -i end=$cursor_new
+				[[ $BUFFER[$cursor_new] = ' ' ]] && (( end-- ))
+				region_highlight=("$CURSOR $end ${hiv}") 
+			}
+		}
+		if [[ "$buffer_cur" != "$buffer_new" ]] || ((cursor_cur != cursor_new))
+		then
+			afu_in_p=1 
+			{
+				local BUFFER="$buffer_cur"
+				local CURSOR="$cursor_cur"
+				with-afu-compfuncs zle list-choices
+			}
+		fi
+	else
+		BUFFER="$buffer_cur" 
+		CURSOR="$cursor_cur" 
+		zle list-choices
+	fi
+}
+auto-fu-init () {
+	local auto_fu_init_p=1
+	local ps
+	{
+		local -a region_highlight
+		local afu_in_p=0
+		local afu_paused_p=0
+		zstyle -s ':auto-fu:var' postdisplay ps
+		[[ -z ${ps} ]] || POSTDISPLAY="$ps" 
+		afu-recursive-edit-and-accept
+		zle -I
+	} always {
+		[[ -z ${ps} ]] || POSTDISPLAY='' 
+	}
+}
+afu-install-eof () {
+	zstyle -t ':auto-fu:var' eof-installed-p || {
+		if [[ "$options[ignoreeof]" = "on" ]]
+		then
+			bindkey "^D" afu+orf-ignoreeof-deletechar-list
+		else
+			setopt ignoreeof
+			bindkey "^D" afu+orf-exit-deletechar-list
+		fi
+	} always {
+		zstyle ':auto-fu:var' eof-installed-p yes
+	}
+}
+afu+vi-cmd-mode () {
+	zle -K afu-vicmd
+}
+afu+accept-line-and-down-history () {
+	__accepted=($WIDGET ${=NUMERIC:+-n $NUMERIC} "$@") 
+	zle .accept-line-and-down-history && {
+		local hi
+		zstyle -s ':auto-fu:highlight' input hi
+		[[ -z ${hi} ]] || region_highlight=("0 ${#BUFFER} ${hi}") 
+	}
+	zstyle -T ':auto-fu:var' postdisplay/clearp && POSTDISPLAY='' 
+	return 0
+}
+kill-whole-line-by-keymap () {
+	if (( $+widgets[$KEYMAP+$WIDGET] == 1 ))
+	then
+		zle $KEYMAP+$WIDGET "$@"
+	else
+		zle .$WIDGET "$@"
+	fi
+}
+afu+complete-word () {
+	afu-clearing-maybe
+	{
+		afu-able-p
+	} || {
+		zle complete-word
+		return
+	}
+	with-afu-compfuncs
+	if ((afu_in_p == 1))
+	then
+		afu_in_p=0 
+		CURSOR="$cursor_new" 
+		case $LBUFFER[-1] in
+			(=) {
+					local x="${${(@z)LBUFFER}[-1]}"
+					[[ "$x" = -* ]] && zle complete-word && return
+				} ;;
+			(/) {
+					local y="((*-)#directories|all-files|(command|executable)s)"
+					y=${AUTO_FU_PATHITH:-${y}} 
+					local -a x
+					x=${(M)${(@z)"${_lastcomp[tags]}"}:#${~y}} 
+					zle complete-word
+					[[ -n $x ]] && zle -U "$LBUFFER[-1]"
+					return
+				} ;;
+			(,) BUFFER="$buffer_cur" 
+				zle complete-word
+				return ;;
+		esac
+		(( $_lastcomp[nmatches]  > 1 )) && zle complete-word
+		(( $_lastcomp[nmatches] == 1 )) && _lastcomp[nmatches]=0 
+	else
+		[[ $LASTWIDGET = afu+*~afu+complete-word ]] && {
+			afu_in_p=0 
+			BUFFER="$buffer_cur" 
+		}
+		zle complete-word
+	fi
+}
+afu-able-p () {
+	(( afu_paused_p == 1 )) && return 1
+	local c=$LBUFFER[-1]
+	[[ $c = '' ]] && return 1
+	[[ $c = ' ' ]] && {
+		afu-able-space-p || return 1 && return 0
+	}
+	[[ $c = '.' ]] && return 1
+	[[ $c = '^' ]] && return 1
+	[[ $c = '~' ]] && return 1
+	[[ $c = ')' ]] && return 1
+	return 0
+}
+afu+orf-exit-deletechar-list () {
+	afu-eof-maybe exit zle delete-char-or-list
+}
+afu-reset () {
+	region_highlight=() 
+	afu_in_p=0 
+	local ps
+	zstyle -s ':auto-fu:var' postdisplay ps
+	[[ -z ${ps} ]] || POSTDISPLAY='' 
+}
+afu-clean () {
+	local d=${1:-~/.zsh}
+	rm -f ${d}/{auto-fu,auto-fu.zwc*(N)}
+}
+backward-kill-word-by-keymap () {
+	if (( $+widgets[$KEYMAP+$WIDGET] == 1 ))
+	then
+		zle $KEYMAP+$WIDGET "$@"
+	else
+		zle .$WIDGET "$@"
+	fi
+}
+yank-by-keymap () {
+	if (( $+widgets[$KEYMAP+$WIDGET] == 1 ))
+	then
+		zle $KEYMAP+$WIDGET "$@"
+	else
+		zle .$WIDGET "$@"
+	fi
+}
+auto-fu-activate () {
+	afu_paused_p=0 
+}
+with-afu-compfuncs () {
+	compprefuncs=(afu-comppre) 
+	comppostfuncs=(afu-comppost) 
+	"$@"
+}
+afu-recursive-edit-and-accept () {
+	local -a __accepted
+	zle recursive-edit -K afu || {
+		afu-reset
+		zle -R ''
+		zle send-break
+		return
+	}
+	(( ${#${(M)afu_accept_lines:#${__accepted[1]}}} > 1 )) && {
+		zle "${__accepted[@]}"
+	} || {
+		zle accept-line
+	}
+}
+self-insert-by-keymap () {
+	if (( $+widgets[$KEYMAP+$WIDGET] == 1 ))
+	then
+		zle $KEYMAP+$WIDGET "$@"
+	else
+		zle .$WIDGET "$@"
+	fi
+}
+afu+kill-line () {
+	with-afu .kill-line self-insert backward-delete-char backward-kill-word kill-line kill-whole-line kill-word magic-space yank
+}
+afu+yank () {
+	with-afu .yank self-insert backward-delete-char backward-kill-word kill-line kill-whole-line kill-word magic-space yank
+}
+afu+kill-word () {
+	with-afu .kill-word self-insert backward-delete-char backward-kill-word kill-line kill-whole-line kill-word magic-space yank
+}
+auto-fu-toggle () {
+	(( afu_paused_p == 1 )) && {
+		afu_paused_p=0 
+		return
+	}
+	(( afu_paused_p != 1 )) && {
+		afu_paused_p=1 
+		return
+	}
+}
+kill-word-by-keymap () {
+	if (( $+widgets[$KEYMAP+$WIDGET] == 1 ))
+	then
+		zle $KEYMAP+$WIDGET "$@"
+	else
+		zle .$WIDGET "$@"
+	fi
+}
+afu+backward-delete-char () {
+	with-afu .backward-delete-char self-insert backward-delete-char backward-kill-word kill-line kill-whole-line kill-word magic-space yank
+}
+with-afu-gvars () {
+	(( auto_fu_init_p == 1 )) && {
+		zle -M "Sorry, can't turn on or off if auto-fu-init is in effect."
+		return
+	}
+	typeset -g afu_in_p=0
+	typeset -g afu_paused_p=0
+	region_highlight=() 
+	"$@"
+}
+with-afu () {
+	local zlefun="$1"
+	shift
+	local -a zs
+	: ${(A)zs::=$@}
+	afu-clearing-maybe
+	((afu_in_p == 1)) && {
+		afu_in_p=0 
+		BUFFER="$buffer_cur" 
+	}
+	zle $zlefun && {
+		local es ds
+		zstyle -a ':auto-fu:var' enable es
+		(( ${#es} == 0 )) && es=(all) 
+		if [[ -n ${(M)es:#(#i)all} ]]
+		then
+			zstyle -a ':auto-fu:var' disable ds
+			: ${(A)es::=${zs:#(${~${(j.|.)ds}})}}
+		fi
+		[[ -n ${(M)es:#${zlefun#.}} ]]
+	} && {
+		auto-fu-maybe
+	}
+}
+auto-fu-off () {
+	with-afu-gvars zle -K emacs
+}
+afu-clearing-maybe () {
+	region_highlight=() 
+	if ((afu_in_p == 1))
+	then
+		[[ "$BUFFER" != "$buffer_new" ]] || ((CURSOR != cursor_cur)) && {
+			afu_in_p=0 
+		}
+	fi
+}
+auto-fu-on () {
+	with-afu-gvars zle -K afu
+}
+auto-fu-maybe () {
+	(($PENDING== 0)) && {
+		afu-able-p
+	} && [[ $LBUFFER != *$'
+'* ]] && {
+		auto-fu
+	}
+}
+afu-install () {
+	zstyle -t ':auto-fu:var' misc-installed-p || {
+		zmodload zsh/parameter 2> /dev/null || {
+			echo 'auto-fu:zmodload error. exiting.' >&2
+			exit -1
+		}
+		afu-install-isearchmap
+		afu-install-eof
+	} always {
+		zstyle ':auto-fu:var' misc-installed-p yes
+	}
+	bindkey -N afu emacs
+	{
+		"$@"
+	}
+	bindkey -M afu "^I" afu+complete-word
+	bindkey -M afu "^M" afu+accept-line
+	bindkey -M afu "^J" afu+accept-line
+	bindkey -M afu "^O" afu+accept-line-and-down-history
+	bindkey -M afu "^[a" afu+accept-and-hold
+	bindkey -M afu "^X^[" afu+vi-cmd-mode
+	bindkey -N afu-vicmd vicmd
+	bindkey -M afu-vicmd "i" afu+vi-ins-mode
+}
+afu+magic-space () {
+	with-afu .magic-space self-insert backward-delete-char backward-kill-word kill-line kill-whole-line kill-word magic-space yank
+}
+afu-ignore-eof () {
+	zle -M "zsh: use 'exit' to exit."
+}
+auto-fu-install () {
+	{
+		zle -N afu+accept-and-hold
+		zle -N afu+accept-line
+		zle -N afu+accept-line-and-down-history
+		zle -N afu+backward-delete-char
+		zle -N afu+backward-kill-word
+		zle -N afu+complete-word
+		zle -N afu+kill-line
+		zle -N afu+kill-whole-line
+		zle -N afu+kill-word
+		zle -N afu+magic-space
+		zle -N afu+orf-exit-deletechar-list
+		zle -N afu+orf-ignoreeof-deletechar-list
+		zle -N afu+self-insert
+		zle -N afu+vi-cmd-mode
+		zle -N afu+vi-ins-mode
+		zle -N afu+yank
+		zle -N auto-fu
+		zle -N auto-fu-activate
+		zle -N auto-fu-deactivate
+		zle -N auto-fu-init
+		zle -N auto-fu-off
+		zle -N auto-fu-on
+		zle -N auto-fu-toggle
+		zle -N self-insert self-insert-by-keymap
+		zle -N backward-delete-char backward-delete-char-by-keymap
+		zle -N backward-kill-word backward-kill-word-by-keymap
+		zle -N kill-line kill-line-by-keymap
+		zle -N kill-whole-line kill-whole-line-by-keymap
+		zle -N kill-word kill-word-by-keymap
+		zle -N magic-space magic-space-by-keymap
+		zle -N yank yank-by-keymap
+		zle -N afu+self-insert
+		zle -N afu+backward-delete-char
+		zle -N afu+backward-kill-word
+		zle -N afu+kill-line
+		zle -N afu+kill-whole-line
+		zle -N afu+kill-word
+		zle -N afu+magic-space
+		zle -N afu+yank
+	}
+	afu-install
+	typeset -ga afu_accept_lines
+	afu_accept_lines=(afu+accept-line afu+accept-line-and-down-history afu+accept-and-hold) 
+}
+auto-fu-deactivate () {
+	afu_paused_p=1 
+}
+afu+backward-kill-word () {
+	with-afu .backward-kill-word self-insert backward-delete-char backward-kill-word kill-line kill-whole-line kill-word magic-space yank
+}
+afu-install-isearchmap () {
+	zstyle -t ':auto-fu:var' isearchmap-installed-p || {
+		[[ -n ${(M)keymaps:#isearch} ]] && bindkey -M isearch "^M" afu+accept-line
+	} always {
+		zstyle ':auto-fu:var' isearchmap-installed-p yes
+	}
+}
+kill-line-by-keymap () {
+	if (( $+widgets[$KEYMAP+$WIDGET] == 1 ))
+	then
+		zle $KEYMAP+$WIDGET "$@"
+	else
+		zle .$WIDGET "$@"
+	fi
+}
+afu+orf-ignoreeof-deletechar-list () {
+	afu-eof-maybe afu-ignore-eof zle delete-char-or-list
+}
+afu+self-insert () {
+	with-afu .self-insert self-insert backward-delete-char backward-kill-word kill-line kill-whole-line kill-word magic-space yank
+}
+afu-able-space-p () {
+	[[ -z ${AUTO_FU_NOCP-} ]] && {
+		[[ "$WIDGET" = "magic-space" ]] || return 1
+	}
+	local -a x
+	: ${(A)x::=${(z)LBUFFER}}
+	[[ $x[1] != man ]]
+}
+afu+kill-whole-line () {
+	with-afu .kill-whole-line self-insert backward-delete-char backward-kill-word kill-line kill-whole-line kill-word magic-space yank
+}
+magic-space-by-keymap () {
+	if (( $+widgets[$KEYMAP+$WIDGET] == 1 ))
+	then
+		zle $KEYMAP+$WIDGET "$@"
+	else
+		zle .$WIDGET "$@"
+	fi
+}
+afu-eof-maybe () {
+	local eof="$1"
+	shift
+	[[ "$BUFFER" != '' ]] || {
+		$eof
+		return
+	}
+	"$@"
+}
+afu-comppre () {
+	
+}
