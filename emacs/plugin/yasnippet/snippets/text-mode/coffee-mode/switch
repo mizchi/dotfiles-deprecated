@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+# name:switch
+# contributor: Koutaro Chikuba <miz404@gmail.com>
+# --
+switch $0 
+  when  then
+  else

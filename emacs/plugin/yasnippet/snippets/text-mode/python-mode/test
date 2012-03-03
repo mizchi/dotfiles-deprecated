@@ -1,0 +1,4 @@
+#name :test
+# --
+def test_$1():
+    $1($0)

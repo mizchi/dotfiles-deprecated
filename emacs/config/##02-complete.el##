@@ -1,0 +1,16 @@
+
+
+(require 'auto-complete)
+(global-auto-complete-mode t)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete/dict")
+(require 'auto-complete-config)
+(ac-config-default)
+(define-key ac-complete-mode-map "\C-n" 'ac-next)
+(define-key ac-complete-mode-map "\C-j" 'ac-next)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous)
+(define-key ac-complete-mode-map "\C-k" 'ac-previous)
+
+(require 'autoinsert)
+
+(require 'zencoding-mode)
+(define-key zencoding-mode-keymap "\C-j" 'newline-and-indent)

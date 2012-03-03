@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+# name:forof 
+# contributor: Koutaro Chikuba <miz404@gmail.com>
+# --
+for k,v of $0
+  k,v

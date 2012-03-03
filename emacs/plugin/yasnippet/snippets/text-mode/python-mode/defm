@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+# name: defm
+# contributor: Yasser Gonz¨¢lez Fern¨¢ndez <yglez@uh.cu>
+# --
+def $0(self):
+    return 

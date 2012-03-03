@@ -1,0 +1,8 @@
+# name: Class
+# contributor: Koutarou Chikuba @mizchi
+# --
+var $1 = Class.create($2,{
+    initialize : function($super){
+        $super($0);
+    }
+});

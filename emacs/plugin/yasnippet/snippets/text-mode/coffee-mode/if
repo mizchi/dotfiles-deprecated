@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+# name:if
+# contributor: Koutaro Chikuba <miz404@gmail.com>
+# --
+if $0
+   
+else if
+  
+else
+  

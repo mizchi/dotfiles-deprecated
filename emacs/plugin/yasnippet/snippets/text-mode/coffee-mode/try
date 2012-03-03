@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+# name:try
+# contributor: Koutaro Chikuba <miz404@gmail.com>
+# --
+try
+  $0
+catch error
+  
+finally
+  

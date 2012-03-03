@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: mongolian
+# key: mongolian
+# binding: "keybinding"
+# expand-env: ((some-var some-value))
+# --
+mongolian = require 'mongolian'
+server = new mongolian()
+db = server.db 'db'
+article = db.collection 'col'
