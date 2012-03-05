@@ -171,3 +171,20 @@ let g:neocomplcache_include_suffixes = {
 
 let g:quickrun_config['coffee'] = {'command' : 'coffee', 'exec' : ['%c -cbp %s']}
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+
+
+let g:indent_guides_enable_on_vim_startup = 1
+"let g:indent_guides_auto_colors = 0
+"
+"" indent guides
+"augroup indentguides
+"    autocmd!
+"    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=64
+"    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=128
+"augroup END
+
+colorscheme molokai
+set ts=2 sw=2 et
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4

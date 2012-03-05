@@ -25,3 +25,4 @@ alias gosh="rlwrap -b '(){}[], #\";| ' gosh"
 _replace (){
     grep -rl "$1" "$3" | xargs sed -i.bak "s/$1/$2/g"
 }
+alias pyserver="python -m SimpleHTTPServer "

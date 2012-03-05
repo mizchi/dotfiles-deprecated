@@ -9,13 +9,13 @@ Bundle 'Align'
 Bundle 'h1mesuke/vim-alignta'
 Bundle 'YankRing.vim'
 Bundle 'Gundo'
-Bundle 'tpope/surround.vim'
+Bundle 'tpope/vim-surround'
+Bundle 'nathanaelkane/vim-indent-guides'
 
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neocomplcache-snippets-complete'
 
 Bundle 'EasyMotion'
-
 Bundle 'thinca/vim-quickrun'
 Bundle 'thinca/vim-ref'
 Bundle 'Pydiction'
