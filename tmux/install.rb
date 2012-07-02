@@ -1,6 +1,6 @@
 if ARGV[0] == "-f"
   `rm ~/.tmux.conf`
 end
-unless `ln -s ~/rc/tmux/.tmux.conf ~/.tmux.conf`
+unless `ln -s ~/dofiles/tmux/.tmux.conf ~/.tmux.conf`
   puts 'create ~/.tmux.conf'
 end

@@ -1,5 +1,10 @@
-source! /Users/mzi/.vimperatorrc.local
+source! /Users/mizchi/.vimperatorrc.local
 set! browser.download.manager.showWhenStarting=false
+set! dom.popup_maximum=9999
+
+
+let g:plugin_loader_roots = "~/dotfiles/vimperator/vimperator-plugins"
+let g:plugin_loader_plugins = "_libly,account_switcher,appendAnchor,auto_reload,copy,direct_bookmark,feedSomeKeys_3,hatenaStar,multi_requester,pino,proxy,sbmcommentsviewer,tombloo,walk-input,stella,opener,heuristic-search,bitly,x-hint,auto_source,reload-image,loginManager,statusline-toolbar,migemo_completion,hint-tombloo-mod,caret-hint,prevent-pseudo-domain,lo,liberator-overlay-ext,auto-bookmark,QB"
 
 autocmd LocationChange '^(?!https?://(mail\.google\.com/(mail|a)/|(reader\.livedoor|fastladder)\.com/reader/|b\.hatena\.ne\.jp/(?!(entry|articles|guide))))' :set! browser.tabs.loadDivertedInBackground=false
 autocmd LocationChange '^https?://(mail\.google\.com/(mail|a)/|(reader\.livedoor|fastladder)\.com/reader/|b\.hatena\.ne\.jp/(?!(entry|articles|guide)))' :set! browser.tabs.loadDivertedInBackground=true
@@ -57,12 +62,10 @@ liberator.globalVariables.hBookmark_shortcuts = {
 };
 if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
 EOM
-set fs
 
 
 let g:plugin_loader_roots = "~/.vimperator/vimperator-plugins"
 let g:plugin_loader_plugins = "_libly,account_switcher,appendAnchor,auto_reload,copy,feedSomeKeys_3,hatenaStar,multi_requester,pino,proxy,tombloo,walk-input,stella,opener,heuristic-search,bitly,x-hint,loginManager,statusline-toolbar,hint-tombloo-mod,prevent-pseudo-domain,lo,liberator-overlay-ext,auto-bookmark,QB,caret-hint,readitlater"
-
 
 lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
 autocmd LocationChange '^(?!https?://(mail\.google\.com/(mail|a)/|(reader\.livedoor|fastladder)\.com/reader/|b\.hatena\.ne\.jp/(?!(entry|articles|guide))))' :set! browser.tabs.loadDivertedInBackground=false
@@ -100,3 +103,7 @@ nnoremap -u='^http://(reader\.livedoor|fastladder)\.com/reader/' B :tombloo! Lin
 nnoremap -u='^http://(reader\.livedoor|fastladder)\.com/reader/' r :xh r //*[contains(concat(" ",normalize-space(@class)," "), " hilight ")]//*[@class="item_body"]//img<CR>
 nnoremap -u='^http://(reader\.livedoor|fastladder)\.com/reader/' c :xh c //*[contains(concat(" ",normalize-space(@class)," "), " hilight ")]//*[@class="item_info"]/a[1]<CR>
 
+autocmd LocationChange ^(?!https?://(mail\\.google\\.com/(mail|a)/|(reader\\.livedoor\\.com|fastladder\\.com|0\\.0\\.0\\.0\:3000)/reader/|b\\.hatena\\.ne\\.jp/(?!entry/http|articles|guide))) :set! browser.tabs.loadDivertedInBackground=false
+
+lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p v z <S-z> ,r,r < > o,vj J,<Space> K,<S-Space> q w g
+lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' -events=vkeypress i,Tj e,Tk T
