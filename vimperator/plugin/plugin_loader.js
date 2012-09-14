@@ -1,1 +1,1 @@
-/Users/mzi/.vimperator/vimperator-plugins/plugin_loader.js
+../vimperator-plugins/plugin_loader.js

@@ -3,8 +3,6 @@ set! browser.download.manager.showWhenStarting=false
 set! dom.popup_maximum=9999
 
 
-let g:plugin_loader_roots = "~/dotfiles/vimperator/vimperator-plugins"
-let g:plugin_loader_plugins = "_libly,account_switcher,appendAnchor,auto_reload,copy,direct_bookmark,feedSomeKeys_3,hatenaStar,multi_requester,pino,proxy,sbmcommentsviewer,tombloo,walk-input,stella,opener,heuristic-search,bitly,x-hint,auto_source,reload-image,loginManager,statusline-toolbar,migemo_completion,hint-tombloo-mod,caret-hint,prevent-pseudo-domain,lo,liberator-overlay-ext,auto-bookmark,QB"
 
 autocmd LocationChange '^(?!https?://(mail\.google\.com/(mail|a)/|(reader\.livedoor|fastladder)\.com/reader/|b\.hatena\.ne\.jp/(?!(entry|articles|guide))))' :set! browser.tabs.loadDivertedInBackground=false
 autocmd LocationChange '^https?://(mail\.google\.com/(mail|a)/|(reader\.livedoor|fastladder)\.com/reader/|b\.hatena\.ne\.jp/(?!(entry|articles|guide)))' :set! browser.tabs.loadDivertedInBackground=true
@@ -21,6 +19,7 @@ set visualbell
 colorscheme theme
 hi Bell display: none;
 nnoremap <C-r> :restart<CR>
+map <C-h> <BS>
 
 nnoremap j 3j
 nnoremap k 3k
@@ -65,13 +64,15 @@ EOM
 
 
 let g:plugin_loader_roots = "~/.vimperator/vimperator-plugins"
-let g:plugin_loader_plugins = "_libly,account_switcher,appendAnchor,auto_reload,copy,feedSomeKeys_3,hatenaStar,multi_requester,pino,proxy,tombloo,walk-input,stella,opener,heuristic-search,bitly,x-hint,loginManager,statusline-toolbar,hint-tombloo-mod,prevent-pseudo-domain,lo,liberator-overlay-ext,auto-bookmark,QB,caret-hint,readitlater"
+let g:plugin_loader_plugins = "_libly,account_switcher,appendAnchor,auto_reload,copy,feedSomeKeys_3,hatenaStar,multi_requester,pino,proxy,tombloo,walk-input,stella,opener,heuristic-search,bitly,x-hint,loginManager,statusline-toolbar,hint-tombloo-mod,prevent-pseudo-domain,lo,liberator-overlay-ext,auto-bookmark,QB,caret-hint,readitlater,access_hatena,github"
 
 lazy fmaps -u='^https?://mail\.google\.com/(mail|a)/' c j k n p o u e x s r a # [ ] z ? gi gs gt gd ga gc
 autocmd LocationChange '^(?!https?://(mail\.google\.com/(mail|a)/|(reader\.livedoor|fastladder)\.com/reader/|b\.hatena\.ne\.jp/(?!(entry|articles|guide))))' :set! browser.tabs.loadDivertedInBackground=false
 autocmd LocationChange '^https?://(mail\.google\.com/(mail|a)/|(reader\.livedoor|fastladder)\.com/reader/|b\.hatena\.ne\.jp/(?!(entry|articles|guide)))' :set! browser.tabs.loadDivertedInBackground=true
 "set! browser.tabs.loadDivertedInBackground=true
 
+
+let g:github_user = "mizchi"
 
 let g:caret_hint_key = "i"
 let g:caret_hint_tail_key = "I"
@@ -107,3 +108,10 @@ autocmd LocationChange ^(?!https?://(mail\\.google\\.com/(mail|a)/|(reader\\.liv
 
 lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' j k s a p v z <S-z> ,r,r < > o,vj J,<Space> K,<S-Space> q w g
 lazy fmaps -u='^http://(reader\.livedoor|fastladder)\.com/reader/' -events=vkeypress i,Tj e,Tk T
+
+:javascript <<EOF
+commands.addUserCommand(['sc'], 'scrap book', function(){
+  ScrapBookBrowserOverlay.execCapture(0, null, true, 'urn:scrapbook');
+});
+EOF
+

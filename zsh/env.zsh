@@ -1,2 +1,2 @@
 alias reload="source ~/.zshrc"
-path=(~/bin ~/homebrew/bin $path)
+path=(~/bin ~/.cabal/bin ~/homebrew/bin $path)
