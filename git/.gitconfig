@@ -12,16 +12,23 @@
   co = checkout
   ci = commit
   br = branch
-  rmc = rm --cached
+  re = reset
+  re1 = reset HEAD~1
+  re1h = reset HEAD~1 --hard
+  re2 = reset HEAD~2
+  remove = branch -D
 
+  rmc = rm --cached
   log = log -p
   l = log
   log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
   log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
 
   di = diff
+  dc = diff --cached
   d1 = diff HEAD~
   d2 = diff HEAD~~
+  sweep-branch = !git branch --delete $(git branch --merged master | grep -v '^*\\|  master$')
 
 [color]
   status = auto
@@ -34,3 +41,9 @@
   generic = g move-first-line
   generic = G move-last-line
 
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
