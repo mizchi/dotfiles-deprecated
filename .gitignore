@@ -7887,8 +7887,6 @@
     - src/thesis.tex
 - cmd: rake ope
    when: 1387827883
-- cmd: git push origin master 
-   when: 1387829243
 - cmd: git push origin master -f
    when: 1387829253
 - cmd: git commit -am "Update"
@@ -9100,8 +9098,6 @@
    when: 1388307033
    paths:
     - irbtest.coffee
-- cmd: git add --all 
-   when: 1388307041
 - cmd: git rm compile 
    when: 1388307058
    paths:
@@ -9593,8 +9589,6 @@
    when: 1388615140
 - cmd: pbibtex thesis 
    when: 1388615208
-- cmd: vim ~/.vimperatorrc
-   when: 1388616055
 - cmd: subl ~/.vimperatorrc 
    when: 1388616064
 - cmd: open rake
@@ -10186,10 +10180,6 @@
    when: 1388974842
 - cmd: git push origin --tags 
    when: 1388974853
-- cmd: git add README.md 
-   when: 1388975176
-   paths:
-    - README.md
 - cmd: git commit -m "Update README about directive"
    when: 1388975190
 - cmd: git push origin master
@@ -10922,8 +10912,6 @@
     - deploy/LightTable.app/
 - cmd: git clone https://github.com/frenchy64/typed-clojurescript-play.git
    when: 1390062717
-- cmd: git pull --rebase
-   when: 1390062733
 - cmd: lein typed check-cljs 
    when: 1390062812
 - cmd: which cljsc
@@ -11540,10 +11528,6 @@
     - lib
 - cmd: make build
    when: 1390314782
-- cmd: vim README.md 
-   when: 1390314814
-   paths:
-    - README.md
 - cmd: make clean
    when: 1390314868
 - cmd: git grep dataType
@@ -13431,8 +13415,6 @@
    when: 1391581145
 - cmd: git rebase origin/master
    when: 1391581149
-- cmd: git s
-   when: 1391581153
 - cmd: git add app/application.coffee
    when: 1391581209
    paths:
@@ -13467,8 +13449,6 @@
    when: 1391593806
 - cmd: git push origin with-user-items:real-purchase
    when: 1391593811
-- cmd: git stash
-   when: 1391594484
 - cmd: git commit -m "Add belogins"
    when: 1391594768
 - cmd: cd proj/ho
@@ -13477,8 +13457,6 @@
    when: 1391598872
    paths:
     - proj/horn.js/
-- cmd: git diff
-   when: 1391598876
 - cmd: git branch
    when: 1391598898
 - cmd: cd src/
@@ -13511,8 +13489,6 @@
    when: 1391599223
 - cmd: git commit -m "Add belongins root"
    when: 1391599233
-- cmd: cd
-   when: 1391611126
 - cmd: brew lis
    when: 1391611243
 - cmd: brew list
@@ -13547,10 +13523,10 @@
    when: 1391612056
 - cmd: brew cask search 
    when: 1391612069
-- cmd: brew cask search | less
-   when: 1391612175
 - cmd: brew search lime
    when: 1391612424
+- cmd: brew cask search | less
+   when: 1391612614
 - cmd: brew update
    when: 1391612639
 - cmd: brew cask search crawl
@@ -13587,10 +13563,6 @@
    when: 1391613850
 - cmd: cshap
    when: 1391614449
-- cmd: cd dotfiles/
-   when: 1391614485
-   paths:
-    - dotfiles/
 - cmd: vim install-homesick
    when: 1391614573
    paths:
@@ -13685,16 +13657,8 @@
    when: 1391614916
    paths:
     - vimperator/
-- cmd: git add .
-   when: 1391614937
-   paths:
-    - .
 - cmd: git add --all
    when: 1391614942
-- cmd: git commit -m "ok"
-   when: 1391614944
-- cmd: tig
-   when: 1391614946
 - cmd: git rm -r vimperator/
    when: 1391614953
    paths:
@@ -13723,31 +13687,12 @@
    when: 1391615017
    paths:
     - install.rb
-- cmd: ls
-   when: 1391615019
 - cmd: ..la
    when: 1391615028
-- cmd: la
-   when: 1391615029
-- cmd: ..
-   when: 1391615031
-   paths:
-    - ..
-- cmd: ls
-   when: 1391615032
 - cmd: git mv zsh .zsh
    when: 1391615037
    paths:
     - zsh
-- cmd: ls
-   when: 1391615043
-- cmd: la
-   when: 1391615044
-- cmd: git mv .zsh/.zshrc .
-   when: 1391615068
-   paths:
-    - .zsh/.zshrc
-    - .
 - cmd: rm .git/index.lock 
    when: 1391615104
    paths:
@@ -13762,23 +13707,166 @@
    paths:
     - .zsh/.zshrc
     - .
-- cmd: ls
-   when: 1391615116
-- cmd: la
-   when: 1391615118
-- cmd: git add .
-   when: 1391615126
-   paths:
-    - .
 - cmd: git add --all 
    when: 1391615128
 - cmd: git commit -m "ok"
    when: 1391615130
 - cmd: tig
    when: 1391615132
-- cmd: ls
-   when: 1391615134
-- cmd: cd
-   when: 1391615142
+- cmd: brew search coreutils
+   when: 1391616010
+- cmd: cd  dotfiles/
+   when: 1391616300
+   paths:
+    - dotfiles/
+- cmd: mkdir home
+   when: 1391616307
+- cmd: git add home
+   when: 1391616324
+   paths:
+    - home
+- cmd: git mv brewfile home/
+   when: 1391616334
+   paths:
+    - brewfile
+    - home/
+- cmd: git commti -m "Create home"
+   when: 1391616345
+- cmd: git commit -m "Create home"
+   when: 1391616350
+- cmd: git mv .* home/
+   when: 1391616354
+   paths:
+    - home/
+- cmd: git mv .config .gitconfig .gitignore .tmux.conf .vim .vimrc .zsh .zshrc home/
+   when: 1391616407
+   paths:
+    - .config
+    - .gitconfig
+    - .gitignore
+    - .tmux.conf
+    - .vim
+    - .vimrc
+    - .zsh
+    - .zshrc
+    - home/
+- cmd: vim home/
+   when: 1391616417
+   paths:
+    - home/
+- cmd: git mv .co\\ca/ .config
+   when: 1391616444
+   paths:
+    - .co/
+- cmd: mv .co\\ca/ .config
+   when: 1391616451
+   paths:
+    - .co/
+- cmd: git commit -m"" 
+   when: 1391616463
+- cmd: git commit -m"Fix" 
+   when: 1391616465
+- cmd: git s
+   when: 1391616486
+- cmd: git add README.md 
+   when: 1391616489
+   paths:
+    - README.md
+- cmd: git commit -m"Update" 
+   when: 1391616496
+- cmd: cd home/
+   when: 1391616769
+   paths:
+    - home/
+- cmd: cp ~/.vimperator .
+   when: 1391616821
+   paths:
+    - .
+- cmd: cp -r ~/.vimperator .
+   when: 1391616827
+   paths:
+    - .
+- cmd: vim ~/.vimperator
+   when: 1391616844
+- cmd: mkdir .vimperator
+   when: 1391617016
+- cmd: vim ~/.vimperatorrc
+   when: 1391617453
+- cmd: cp ~/Dropbox/.vimperatorrc .
+   when: 1391617462
+   paths:
+    - .
+- cmd: cp -r ~/Dropbox/.vimperator .
+   when: 1391617469
+   paths:
+    - .
 - cmd: la
-   when: 1391615142
+   when: 1391617471
+- cmd: cd .vimperator/
+   when: 1391617500
+   paths:
+    - .vimperator/
+- cmd: cd info/
+   when: 1391617503
+   paths:
+    - info/
+- cmd: cd colors/
+   when: 1391617508
+   paths:
+    - colors/
+- cmd: cd plugin/
+   when: 1391617511
+   paths:
+    - plugin/
+- cmd: rm -r home/.vimperator/vimperator-plugins/
+   when: 1391617593
+   paths:
+    - home/.vimperator/vimperator-plugins/
+- cmd: git rm -r --cached home/.vimperator/vimperator-plugins/
+   when: 1391617614
+- cmd: git submodule add git@github.com:vimpr/vimperator-plugins.git home/.vimperator/vimperator-plugins
+   when: 1391617629
+- cmd: vim README.md 
+   when: 1391617677
+   paths:
+    - README.md
+- cmd: git add .
+   when: 1391617684
+   paths:
+    - .
+- cmd: git commit -m "Submodule"
+   when: 1391617693
+- cmd: ..
+   when: 1391617710
+   paths:
+    - ..
+- cmd: cd dotfiles/
+   when: 1391617718
+   paths:
+    - dotfiles/
+- cmd: git push origin master 
+   when: 1391617725
+- cmd: cd dotfiles/home/
+   when: 1391617739
+   paths:
+    - dotfiles/home/
+- cmd: cd
+   when: 1391617741
+- cmd: cd .homesick/repos/dotfiles/
+   when: 1391617748
+   paths:
+    - .homesick/repos/dotfiles/
+- cmd: ls
+   when: 1391617749
+- cmd: git stash
+   when: 1391617768
+- cmd: git pull --rebase
+   when: 1391617770
+- cmd: git diff
+   when: 1391617780
+- cmd: git rm --cached /home/.config/fish/fish_history
+   when: 1391617796
+- cmd: git rm --cached home/.config/fish/fish_history
+   when: 1391617800
+   paths:
+    - home/.config/fish/fish_history
