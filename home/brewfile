@@ -76,7 +76,4 @@ cask install iterm2 || true
 cask install light-table || true
 cask install nethackcocoa || true
 cask install soundflower || true
-cask install ladiocast || true
 cask install steam || true
-
-
