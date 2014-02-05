@@ -1,5 +1,0 @@
-# -*- coding: utf-8 -*-
-# name:ifthen
-# contributor: Koutaro Chikuba <miz404@gmail.com>
-# --
-if $1 then $2 else $0

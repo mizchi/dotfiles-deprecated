@@ -1,0 +1,119 @@
+
+require('twsidebar');
+
+(function () {
+  let Config = liberator.globalVariables.twittperator_sidebar_expand_url_config || {
+    host: ['ff.im', 'is.gd', 't.co', 'bit.ly', 'j.mp', 'htn.to', 'goo.gl', 'ow.ly'],
+    photo: ['png', 'jpg', 'gif'],
+    filter: function (url, callback) {
+      let isStatus = /https?:\/\/twitter\.com\/(\w+)\/status(?:es)?\/(\d+)/.exec(url);
+      let isPhoto = /\/photo\/\d/;
+      if (isStatus) {
+        if (!isPhoto.test(isStatus.input)) {
+          plugins.twittperator.OAuth.jsonGet('http://api.twitter.com/1/statuses/show', {id:isStatus[2]}, function(msg){
+            callback('\u26A1 ' + msg.user.screen_name + ' : ' + msg.text);
+          });
+        }
+      } else if (Config.photo.indexOf(url.substr(-3)) >= 0) {
+          var img = document.createElement('image');
+          img.setAttribute('src', url);
+          img.setAttribute('style', 'max-height: 120px; max-width: 120px;');
+          callback([img, url.length > 30 ? url.substr(0, 30) + '...' : url], 'both');
+      } else {
+        callback(url.length > 60 ? url.substr(0, 60) + '...' : url);
+      }
+    }
+  }
+
+  function isShorten(uri)
+    Config.host.indexOf(uri.host) >= 0 ? true : false;
+
+  function expandURL (url, callback) {
+    let uri = util.createURI(url);
+    if (isShorten(uri)) {
+      let xhr = new XMLHttpRequest;
+      xhr.open('HEAD', uri.spec, true);
+      xhr.setRequestHeader('User-Agent', 't.co'); // t.co対策
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          callback(xhr.channel.URI.spec, url);
+        }
+      }
+      xhr.send();
+    } else {
+      callback(url, false);
+    }
+  }
+
+  // twsidebar.twの直接呼びたい
+  function escapeBreakers (text)
+    text.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]+/g, function(c) uneval(c));
+
+  function sidebar ()
+    document.getElementById('sidebar')._contentWindow.document;
+
+  function twsText (id) {
+    try {
+      return sidebar().getElementById(id).childNodes[1].childNodes[3].childNodes[3].firstChild;
+    } catch (e) {
+      return void 0;
+    }
+  }
+
+  function scroll () {
+    let tws = sidebar().getElementById('tw-anekos-sb-home-list');
+    let len = tws.itemCount;
+    tws.scrollToIndex(len - 1);
+  }
+
+  function replaceURL (tweet, id, urls) {
+    for (let i in urls) {
+      let sUrl = urls[i].url;
+      expandURL(urls[i].expanded_url, function (eUrl , expand) {
+        tweet.text = tweet.text.replace(sUrl, eUrl);
+        if (!sidebar().getElementById('tw-anekos-sb-home-list')) { return; }
+        let fUrl = expand ? sUrl : eUrl;
+        eUrl = urls[i].media_url ? urls[i].media_url : eUrl;
+        setTimeout(function () {
+          let e = twsText(id);
+          if (e) {
+            Config.filter(eUrl, function(filtered, mode){
+              switch (mode) {
+                case 'appendChild':
+                  e.parentElement.appendChild(filtered);
+                  break;
+                case 'both':
+                  if ( i == 0 ) {
+                    let br = document.createElementNS('http://www.w3.org/1999/xhtml', 'br')
+                    e.parentElement.appendChild(br);
+                  }
+                  e.parentElement.appendChild(filtered[0]);
+                  e.textContent = escapeBreakers(e.textContent.replace(fUrl, filtered[1]));
+                  break;
+                default:
+                  e.textContent = escapeBreakers(e.textContent.replace(fUrl, filtered));
+              }
+              setTimeout(function () { scroll(); }, 500);
+            });
+          }
+        }, 100);
+      });
+    }
+  }
+
+  function onMsg (msg, raw) {
+    if (!msg.entities) { return; }
+    let tweet = (msg.retweeted_status) ? msg.retweeted_status : msg;
+    if (tweet.entities.urls[0]) {
+      replaceURL(tweet, msg.id, tweet.entities.urls);
+    }
+    if (tweet.entities.media && tweet.entities.media[0]) {
+      replaceURL(tweet, msg.id, tweet.entities.media);
+    }
+  }
+
+  plugins.twittperator.ChirpUserStream.addListener(onMsg);
+  plugins.twittperator.TrackingStream.addListener(onMsg);
+})();
+
+// vim: ft=javascript:

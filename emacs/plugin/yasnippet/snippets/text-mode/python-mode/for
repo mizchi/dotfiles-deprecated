@@ -1,3 +1,0 @@
-#name : for ... in ... : ...
-# --
-for i in $0:

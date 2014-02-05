@@ -1,3 +1,0 @@
-(setq tmp-env-table '(
-("defvar")
-))

@@ -1,9 +1,0 @@
-# -*- coding: utf-8 -*-
-# name: Class
-# contributor: Koutarou Chikuba @mizchi
-# --
-var $1 = Class.create({
-    initialize : function(){
-        $0
-    }
-});
