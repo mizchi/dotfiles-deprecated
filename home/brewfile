@@ -77,3 +77,4 @@ cask install light-table || true
 cask install nethackcocoa || true
 cask install soundflower || true
 cask install steam || true
+cask install appcleaner || true

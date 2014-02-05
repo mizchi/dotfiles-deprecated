@@ -1,14 +1,14 @@
 set nocompatible  " be iMproved
 filetype off      " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-Bundle 'kchmck/vim-scoffee-script'
-set rtp+=~/.vim/bundle/vundle/vim-coffee-script
-Bundle 'kien/ctrlp.vim'
-set rtp+=~/.vim/bundle/vundle/ctrlp.vim
+"set rtp+=~/.vim/bundle/vundle/
+"call vundle#rc()
+"
+"Bundle 'gmarik/vundle'
+"Bundle 'kchmck/vim-scoffee-script'
+"set rtp+=~/.vim/bundle/vundle/vim-coffee-script
+"Bundle 'kien/ctrlp.vim'
+"set rtp+=~/.vim/bundle/vundle/ctrlp.vim
 
 filetype plugin indent on
 syntax on
