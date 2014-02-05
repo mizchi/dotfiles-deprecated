@@ -2,6 +2,6 @@
 
 ```
 gem install homesick
-git clone git@github.com:mizchi/dotfiles.git
+git clone mizchi/dotfiles.git
 homesick symlink dotfiles
 ```
