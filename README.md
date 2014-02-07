@@ -2,8 +2,9 @@
 
 ```
 gem install homesick
+rbenv rehash
+homesick clone mizchi/dotfiles
 cd ~/.homesick/repos/dotfiles/
 git submodule update --init
-git clone mizchi/dotfiles.git
 homesick symlink dotfiles
 ```
