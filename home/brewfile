@@ -38,7 +38,7 @@ install plt-racket || true
 install haskell-platform || true
 install cpanminus || true
 
-install nginx || true
+install nginx ||  true
 install mysql || true
 install sqlite || true
 install mongodb || true
