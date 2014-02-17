@@ -11,11 +11,11 @@ NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'git@github.com:thinca/vim-quickrun.git'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'Valloric/YouCompleteMe' , {
-  \ 'build' : {
-  \     'unix' : './install.sh',
-  \    },
-  \ } 
+"NeoBundle 'Valloric/YouCompleteMe' , {
+"  \ 'build' : {
+"  \     'unix' : './install.sh',
+"  \    },
+"  \ } 
 filetype plugin indent on
 NeoBundleCheck
 set syntax=on
