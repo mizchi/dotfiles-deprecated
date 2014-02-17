@@ -1,20 +1,55 @@
-set nocompatible  " be iMproved
-filetype off      " required!
+set shell=/bin/sh
+if has('vim_starting')
+  set nocompatible
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+call neobundle#rc(expand('~/.vim/bundle/'))
 
-"set rtp+=~/.vim/bundle/vundle/
-"call vundle#rc()
-"
-"Bundle 'gmarik/vundle'
-"Bundle 'kchmck/vim-scoffee-script'
-"set rtp+=~/.vim/bundle/vundle/vim-coffee-script
-"Bundle 'kien/ctrlp.vim'
-"set rtp+=~/.vim/bundle/vundle/ctrlp.vim
-
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'git@github.com:thinca/vim-quickrun.git'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'Valloric/YouCompleteMe' , {
+  \ 'build' : {
+  \     'unix' : './install.sh',
+  \    },
+  \ } 
 filetype plugin indent on
-syntax on
+NeoBundleCheck
+set syntax=on
+syntax enable
 
-" vimにcoffeeファイルタイプを認識させる
-au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
-" インデントを設定
-autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
 
+" ctrlp
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+colorscheme monokai
+hi CtrlPLinePre guifg=red ctermfg=red
+
+let g:quickrun_config = {}
+nnoremap <C-r> :QuickRun<CR>
+let g:quickrun_config['scala'] = {
+      \   'outputter': 'browser'
+      \ }
+
+
+"タブ文字の長さ
+set tabstop=4
+set shiftwidth=4
+" カーソルを行頭、行末で止まらないようにする
+set whichwrap=b,s,h,l,<,>,[,]
+set fileformat=unix
+set fileformats=unix,dos
+set noshellslash
+let g:quickrun_config = {
+   \   'scala': {
+   \       'command': 'scala',
+   \       'exec': "%c %s"
+   \   },
+   \   'coffee': {
+   \       'command': 'coffee'
+   \   },
+   \}
+"let g:quickrun_config={'*': {'split': ''}}
