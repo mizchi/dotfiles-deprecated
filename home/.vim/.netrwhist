@@ -1,11 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/Users/mizchi/.homesick/repos/dotfiles/home'
-let g:netrw_dirhist_2='/Users/mizchi/proj/grunt-genanimate'
-let g:netrw_dirhist_3='/Users/mizchi/sandbox/scjs2/target/scala-2.10'
-let g:netrw_dirhist_4='/Users/mizchi/.homesick/repos/dotfiles/home/.vim/bundle/vim-quickrun'
-let g:netrw_dirhist_5='/Users/mizchi/.homesick/repos/dotfiles/home/.vim/bundle/vim-quickrun/doc'
-let g:netrw_dirhist_6='/Users/mizchi/.homesick/repos/dotfiles/home/.vim/bundle/vim-quickrun'
-let g:netrw_dirhist_7='/Users/mizchi/.homesick/repos/dotfiles/home/.vim/bundle/vim-quickrun/autoload'
-let g:netrw_dirhist_8='/Users/mizchi/sandbox/scala'
-let g:netrw_dirhist_9='/Users/mizchi/sandbox'
+let g:netrw_dirhist_cnt =0
