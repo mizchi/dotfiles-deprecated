@@ -29,7 +29,7 @@
  ],
  "disableConnectionShortcuts" : false,
  "loadMongoRcJs" : false,
- "style" : "",
+ "style" : "Native",
  "timeZone" : 0,
  "uuidEncoding" : 0,
  "version" : "1.0",

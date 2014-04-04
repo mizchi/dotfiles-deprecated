@@ -29,6 +29,7 @@
   d1 = diff HEAD~
   d2 = diff HEAD~~
   sweep-branch = !git branch --delete $(git branch --merged master | grep -v '^*\\|  master$')
+  fuck = !open https://www.youtube.com/watch?v=_36yNWw_07g
 
 [color]
   status = auto

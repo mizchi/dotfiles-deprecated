@@ -88,7 +88,13 @@ liberator.globalVariables.copy_templates = [
   { label: 'url', value: '%URL%' },
   { label: 'markdown', value: '[%TITLE%](%URL% "%TITLE%")' },
   { label: 'markdownsel', value: '[%SEL%](%URL% "%TITLE%")' },
-  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
+  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' },
+  { label: 'amazon',   value: 'copy clean amazon url from current page',
+      custom: function() {
+        var m = content.document.location.pathname.match(/dp\/(\d+)/);
+        return m ? ('http://amazon.jp/dp/' + m[1]) : null;
+      }
+  }
 ];
 EOM
 

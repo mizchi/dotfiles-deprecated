@@ -4,6 +4,8 @@ update || true
 
 install brew-cask || true
 install git || true
+install hg || true
+install ag || true
 install gist || true
 install gibo || true
 install hub || true
@@ -17,6 +19,9 @@ install fish || true
 install zsh || true
 install wget || true
 install curl || true
+install cmake || true
+install libtool || true
+install automake || true
 
 install phantomjs || true
 install llvm || true
@@ -31,9 +36,10 @@ install ruby-build || true
 install rbenv || true
 install heroku-toolbelt || true
 install opam || true
-install dub || true
+install scala || true
 install sbt || true
 install dmd || true
+install dub || true
 install plt-racket || true
 install haskell-platform || true
 install cpanminus || true
