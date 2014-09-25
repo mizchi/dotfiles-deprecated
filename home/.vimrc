@@ -19,6 +19,10 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'gkz/vim-ls'
+NeoBundle 'toyamarinyon/vim-swift'
+NeoBundle 'jdonaldson/vaxe'
 
 augroup InsertHook
   autocmd!
@@ -31,19 +35,36 @@ NeoBundleCheck
 
 set syntax=on
 syntax enable
-set tabstop=4
-set shiftwidth=4
-set splitbelow
-set splitright
-set expandtab
+set tabstop=2
+set shiftwidth=2
+set cindent
 set whichwrap=b,s,h,l,<,>,[,]
 set fileformat=unix
+set showcmd
+set nofoldenable
 set fileformats=unix,dos
 set noshellslash
 set ambiwidth=double
 set guioptions-=r
 set guioptions-=m
 set guioptions-=T
+set nowritebackup
+set nobackup
+set noswapfile
+set autoread
+set backspace=indent,eol,start
+set vb t_vb=
+if has("syntax")
+  syntax on
+  function! ActivateInvisibleIndicator()
+    syntax match InvisibleJISX0208Space "　" display containedin=ALL
+    highlight InvisibleJISX0208Space term=underline ctermbg=236 guibg=Cyan
+  endf
+  augroup invisible
+    autocmd! invisible
+    autocmd BufNew,BufRead * call ActivateInvisibleIndicator()
+  augroup END
+endif
 
 nnoremap ,s :source %<CR>
 nnoremap <C-h> :tabprevious<CR>
@@ -67,6 +88,12 @@ let g:quickrun_config = {
    \   },
    \   'coffee': {
    \       'command': 'coffee'
+   \   },
+   \   'livescript': {
+   \       'command': 'livescript'
+   \   },
+   \   'ls': {
+   \       'command': 'livescript'
    \   },
    \}
 
@@ -138,6 +165,7 @@ autocmd FileType ruby,eruby setlocal omnifunc=rubycomplete#Complete
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd BufNewFile,BufRead *.purs set filetype=haskell
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -177,3 +205,49 @@ let g:unite_enable_start_insert=1
 let g:unite_source_history_yank_enable =1
 let g:unite_source_file_mru_limit = 200
 nnoremap t :Unite file_rec<CR>
+
+let g:NERDCreateDefaultMappings = 0
+let NERDSpaceDelims = 1
+nmap ; <Plug>NERDCommenterToggle
+vmap ; <Plug>NERDCommenterToggle
+
+autocmd Filetype haskell setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+autocmd Filetype typescript setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+autocmd Filetype javascript setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+autocmd Filetype coffee setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype livescript setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype ls setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype ruby setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype lisp setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+
+" 検索などで飛んだらそこを真ん中に
+nmap n nzz
+nmap N Nzz
+nmap * *zz
+nmap # #zz
+nmap g* g*zz
+nmap g# g#zz
+nmap G Gzz
+" CTRL-hjklでウィンドウ移動
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+nmap <C-h> <C-w>h
+
+imap <C-p> <Up>
+imap <C-n> <Down>
+imap <C-f> <Right>
+imap <C-b> <Left>
+imap <C-a> <ESC><S-i>
+
+set pastetoggle=<F2>
+let g:quickrun_config['haxe'] = {
+			\ 'command' : 'haxe'
+			\ , 'args' : '-x'
+			\ , 'cmdopt' : '-main ' . "%{HaxeClssName(expand(\"%S:t:r\"))}"
+			\ , 'exec' : "%c %o %a %s:p"
+			\ }
+ 
+function! HaxeClssName(word)
+  return substitute(a:word, '^\v.*\ze\.hx', '\u&', '')
+endfunction

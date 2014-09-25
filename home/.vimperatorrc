@@ -7,7 +7,7 @@ autocmd LocationChange '^https?://(mail\.google\.com/(mail|a)/|(reader\.livedoor
 "set! browser.tabs.loadDivertedInBackground=true
 
 
-set gui=tabs
+set gui=none,tabs
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
 set hlsearch
 set focuscontent
@@ -116,3 +116,4 @@ commands.addUserCommand(['sc'], 'scrap book', function(){
 });
 EOF
 
+hi CmdLine -append -moz-box-ordinal-group: 10
